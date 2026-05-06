@@ -1,0 +1,46 @@
+:root {
+  --text-color: #242424;
+  --footnote-color: #929292;
+  --economist-red: #e3120b;
+  --sans: system-ui, "Segoe UI", Roboto, sans-serif;
+  --heading: system-ui, "Segoe UI", Roboto, sans-serif;
+  font: 18px/145% var(--sans);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+#root {
+  width: 1126px;
+  max-width: 100%;
+}
+
+:root {
+  --chart-left-margin: 115px;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--sans);
+  color: var(--text-color);
+}
+
+.header {
+  /* Removed padding-left so text starts at the container edge */
+  padding: 15px 0 10px 0;
+  display: flex;
+  justify-content: left;
+}
+
+.title {
+  font-family: var(--heading);
+  font-size: 32px;
+  text-align: left;
+  margin: 0;
+}
+
+.main {
+  padding: 0;
+}
