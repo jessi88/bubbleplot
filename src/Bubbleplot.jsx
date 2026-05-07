@@ -175,17 +175,17 @@ const Bubbleplot = ({
               alignItems: "start",
             }}
           >
-            <span style={{ fontWeight: "bold", justifySelf: "start" }}>Continent:</span>
+            <span style={{ fontWeight: "bold", justifySelf: "start" }}>Continent</span>
             <span style={{ textAlign: "right", fontFamily: "monospace", justifySelf: "start" }}>
               {tooltip.continent}
             </span>
 
-            <span style={{ fontWeight: "bold", justifySelf: "start" }}>Life Exp.:</span>
+            <span style={{ fontWeight: "bold", justifySelf: "start" }}>Life Exp.</span>
             <span style={{ textAlign: "right", fontFamily: "monospace", justifySelf: "start" }}>
               {tooltip.lifeExp.toFixed(1)} yrs
             </span>
 
-            <span style={{ fontWeight: "bold", justifySelf: "start" }}>GDP / Capita:</span>
+            <span style={{ fontWeight: "bold", justifySelf: "start" }}>GDP / Capita</span>
             <span style={{ textAlign: "right", fontFamily: "monospace", justifySelf: "start" }}>
               {tooltip.gdpPercap.toLocaleString("en-US", {
                 maximumFractionDigits: 0,
@@ -193,7 +193,7 @@ const Bubbleplot = ({
               intl. $
             </span>
 
-            <span style={{ fontWeight: "bold", justifySelf: "start" }}>Population:</span>
+            <span style={{ fontWeight: "bold", justifySelf: "start" }}>Population</span>
             <span style={{ textAlign: "right", fontFamily: "monospace", justifySelf: "start" }}>
               {new Intl.NumberFormat("en-US", {
                 notation: "compact",
