@@ -22,12 +22,14 @@ export const AxisLeft = ({
       {yScale.ticks(numberOfTicksTarget).map((value) => (
         <g key={value} transform={`translate(0, ${yScale(value)})`}>
           {/* Grid line */}
-          <line x1={0} x2={boundsWidth} stroke={gridColor} opacity={0.1} />
+          {gridColor && (
+            <line x1={0} x2={boundsWidth} stroke={gridColor} opacity={0.1} />
+          )}
           {/* Tick */}
           <line x2={-TICK_LENGTH} stroke={tickColor} />
           <text
             style={{
-              fontSize: "10px",
+              fontSize: "12px",
               textAnchor: "middle",
               transform: "translateX(-20px)",
             }}

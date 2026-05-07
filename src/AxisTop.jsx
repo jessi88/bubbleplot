@@ -27,12 +27,14 @@ export const AxisTop = ({
       {ticks.map((value) => (
         <g key={value} transform={`translate(${xScale(value)}, 0)`}>
           {/* Grid line */}
-          <line y1={boundsHeight} y2={0} stroke={gridColor} opacity={0.1} />
+          {gridColor && (
+            <line y1={boundsHeight} y2={0} stroke={gridColor} opacity={0.1} />
+          )}
           {/* Tick */}
           <line y2={-TICK_LENGTH} stroke={tickColor} />
           <text
             style={{
-              fontSize: "10px",
+              fontSize: "12px",
               textAnchor: "middle",
               transform: "translateY(-15px)",
             }}
@@ -45,7 +47,7 @@ export const AxisTop = ({
       {label && (
         <text
           x={xScale(ticks[0])}
-          y={-35}
+          y={-45}
           fontSize={12}
           textAnchor="start"
           dx="-0.3em"

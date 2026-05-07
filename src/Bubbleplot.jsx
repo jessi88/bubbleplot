@@ -7,16 +7,19 @@ const Bubbleplot = ({
   data,
   width,
   height,
-  barColor,
-  gridColor,
+  highlightColor,
+  backgroundColor,
+  backgroundTextColor,
   tickColor,
 }) => {
   const MARGIN = {
-    top: 50,
+    top: 70,
     right: 13,
     bottom: 0,
     left: 60,
   };
+  const BUBBLE_MIN_SIZE = 4;
+  const BUBBLE_MAX_SIZE = 40;
 
   const boundsWidth = width - MARGIN.left - MARGIN.right;
   const boundsHeight = height - MARGIN.top - MARGIN.bottom;
@@ -26,8 +29,11 @@ const Bubbleplot = ({
     visible: false,
     x: 0,
     y: 0,
-    name: "",
-    count: 0,
+    country: "",
+    continent: "",
+    lifeExp: 0,
+    gdpPercap: 0,
+    pop: 0,
   });
 
   const minLifeExp = min(data, (d) => d.lifeExp) - 1 || 0;
@@ -42,7 +48,9 @@ const Bubbleplot = ({
   const yScale = scaleLinear()
     .domain([minLifeExp, maxLifeExp])
     .range([boundsHeight, 0]);
-  const sizeScale = scaleSqrt().domain([minPop, maxPop]).range([2, 20]);
+  const sizeScale = scaleSqrt()
+    .domain([minPop, maxPop])
+    .range([BUBBLE_MIN_SIZE, BUBBLE_MAX_SIZE]);
 
   const handleMouseEnter = (event, d) => {
     setHoveredName(d.country);
@@ -51,7 +59,10 @@ const Bubbleplot = ({
       x: event.clientX,
       y: event.clientY,
       country: d.country,
+      continent: d.continent,
       lifeExp: d.lifeExp,
+      gdpPercap: d.gdpPercap,
+      pop: d.pop,
     });
   };
 
@@ -61,7 +72,10 @@ const Bubbleplot = ({
       x: event.clientX,
       y: event.clientY,
       country: d.country,
+      continent: d.continent,
       lifeExp: d.lifeExp,
+      gdpPercap: d.gdpPercap,
+      pop: d.pop,
     });
   };
 
@@ -75,10 +89,11 @@ const Bubbleplot = ({
 
   return (
     <div>
-      <svg width={width} height={height}>
+      <svg width="100%" height="auto" viewBox={`0 0 ${width} ${height}`}>
         <g transform={`translate(${MARGIN.left}, ${MARGIN.top})`}>
-          {data.map((d, i) => {
+          {data.map((d) => {
             const isHovered = hoveredName === d.country;
+            const isAsian = d.continent === "Asia";
 
             return (
               <g
@@ -89,18 +104,16 @@ const Bubbleplot = ({
                 style={{ cursor: "pointer" }}
               >
                 <circle
-                  key={i}
+                  key={d.country}
                   cx={xScale(d.gdpPercap)}
                   cy={yScale(d.lifeExp)}
                   r={sizeScale(d.pop)}
-                  fill={isHovered ? barColor : barColor}
-                  opacity={
-                    hoveredName
-                      ? isHovered
-                        ? 1
-                        : 0.4 // fade non-hovered bars
-                      : 1
-                  }
+                  stroke={isAsian ? highlightColor : backgroundColor}
+                  fill={isAsian ? highlightColor : backgroundColor}
+                  strokeWidth={1}
+                  fill={isAsian ? highlightColor : backgroundColor}
+                  opacity={isAsian ? 1 : 0.5}
+                  fillOpacity={isHovered ? 0.8 : 0.4}
                   style={{
                     transition:
                       "width 0.8s ease, fill 0.2s ease, opacity 0.2s ease, transform 0.2s ease",
@@ -117,8 +130,7 @@ const Bubbleplot = ({
             xScale={xScale}
             pixelsPerTick={60}
             boundsHeight={boundsHeight}
-            label="GDP PER CAPITA"
-            gridColor={gridColor}
+            label="GDP PER CAPITA (PPP-ADJUSTED INTERNATIONAL DOLLARS)"
             tickColor={tickColor}
           />
 
@@ -126,8 +138,7 @@ const Bubbleplot = ({
             yScale={yScale}
             pixelsPerTick={40}
             boundsWidth={boundsWidth}
-            label="LIFE EXPECTANCY"
-            gridColor={gridColor}
+            label="LIFE EXPECTANCY (YEARS)"
             tickColor={tickColor}
           />
         </g>
@@ -140,7 +151,7 @@ const Bubbleplot = ({
             left: tooltip.x + 12,
             top: tooltip.y + 12,
             background: "rgba(240, 240, 240, 0.85)",
-            color: barColor,
+            color: tooltip.continent === "Asia" ? highlightColor : backgroundTextColor,
             padding: "8px 10px",
             borderRadius: "8px",
             fontSize: "12px",
@@ -151,10 +162,47 @@ const Bubbleplot = ({
             whiteSpace: "nowrap",
           }}
         >
-          <div>
+          <div style={{ fontSize: "14px" }}>
             <strong>{tooltip.country}</strong>
           </div>
-          <div>Life Expectancy: {tooltip.lifeExp}</div>
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "auto 1fr",
+              gap: "0px 20px",
+              padding: "8px",
+              alignItems: "start",
+            }}
+          >
+            <span style={{ fontWeight: "bold", justifySelf: "start" }}>Continent:</span>
+            <span style={{ textAlign: "right", fontFamily: "monospace", justifySelf: "start" }}>
+              {tooltip.continent}
+            </span>
+
+            <span style={{ fontWeight: "bold", justifySelf: "start" }}>Life Exp.:</span>
+            <span style={{ textAlign: "right", fontFamily: "monospace", justifySelf: "start" }}>
+              {tooltip.lifeExp.toFixed(1)} yrs
+            </span>
+
+            <span style={{ fontWeight: "bold", justifySelf: "start" }}>GDP / Capita:</span>
+            <span style={{ textAlign: "right", fontFamily: "monospace", justifySelf: "start" }}>
+              {tooltip.gdpPercap.toLocaleString("en-US", {
+                maximumFractionDigits: 0,
+              })}{" "}
+              intl. $
+            </span>
+
+            <span style={{ fontWeight: "bold", justifySelf: "start" }}>Population:</span>
+            <span style={{ textAlign: "right", fontFamily: "monospace", justifySelf: "start" }}>
+              {new Intl.NumberFormat("en-US", {
+                notation: "compact",
+                compactDisplay: "short",
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              }).format(tooltip.pop)}
+            </span>
+          </div>
         </div>
       )}
     </div>
