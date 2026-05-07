@@ -39,7 +39,9 @@ export const AxisTop = ({
               transform: "translateY(-15px)",
             }}
           >
-            {value}
+            {value.toLocaleString("en-US", {
+                maximumFractionDigits: 0,
+              })}
           </text>
         </g>
       ))}

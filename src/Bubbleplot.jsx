@@ -162,7 +162,7 @@ const Bubbleplot = ({
             whiteSpace: "nowrap",
           }}
         >
-          <div style={{ fontSize: "14px" }}>
+          <div style={{ fontSize: "16px" }}>
             <strong>{tooltip.country}</strong>
           </div>
 
@@ -171,30 +171,30 @@ const Bubbleplot = ({
               display: "grid",
               gridTemplateColumns: "auto 1fr",
               gap: "0px 20px",
-              padding: "8px",
+              paddingTop: "8px",
               alignItems: "start",
             }}
           >
-            <span style={{ fontWeight: "bold", justifySelf: "start" }}>Continent</span>
-            <span style={{ textAlign: "right", fontFamily: "monospace", justifySelf: "start" }}>
+            <span style={{ fontWeight: "500", justifySelf: "start" }}>Continent</span>
+            <span style={{ fontWeight: "550", textAlign: "right", fontFamily: "monospace", justifySelf: "start" }}>
               {tooltip.continent}
             </span>
 
-            <span style={{ fontWeight: "bold", justifySelf: "start" }}>Life Exp.</span>
-            <span style={{ textAlign: "right", fontFamily: "monospace", justifySelf: "start" }}>
+            <span style={{ fontWeight: "500", justifySelf: "start" }}>Life Exp.</span>
+            <span style={{ fontWeight: "550", textAlign: "right", fontFamily: "monospace", justifySelf: "start" }}>
               {tooltip.lifeExp.toFixed(1)} yrs
             </span>
 
-            <span style={{ fontWeight: "bold", justifySelf: "start" }}>GDP / Capita</span>
-            <span style={{ textAlign: "right", fontFamily: "monospace", justifySelf: "start" }}>
+            <span style={{ fontWeight: "500", justifySelf: "start" }}>GDP / Capita</span>
+            <span style={{ fontWeight: "550", textAlign: "right", fontFamily: "monospace", justifySelf: "start" }}>
               {tooltip.gdpPercap.toLocaleString("en-US", {
                 maximumFractionDigits: 0,
               })}{" "}
               intl. $
             </span>
 
-            <span style={{ fontWeight: "bold", justifySelf: "start" }}>Population</span>
-            <span style={{ textAlign: "right", fontFamily: "monospace", justifySelf: "start" }}>
+            <span style={{ fontWeight: "500", justifySelf: "start" }}>Population</span>
+            <span style={{ fontWeight: "550", textAlign: "right", fontFamily: "monospace", justifySelf: "start" }}>
               {new Intl.NumberFormat("en-US", {
                 notation: "compact",
                 compactDisplay: "short",
